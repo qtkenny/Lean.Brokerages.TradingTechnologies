@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using QuantConnect.Brokerages;
+using QuantConnect.Logging;
 using QuantConnect.Securities;
 using QuantConnect.TradingTechnologies.TT.Api;
 
@@ -314,14 +315,22 @@ namespace QuantConnect.TradingTechnologies
 
             foreach (var market in markets)
             {
+                Log.Trace($"LoadMarketsMap(): Id: {market.Id} - Name: {market.Name}");
+
                 if (_mapSecurityExchangeToLeanMarket.TryGetValue(market.Name, out var leanMarket))
                 {
+                    Log.Trace($"LoadMarketsMap(): Adding Lean market: {market.Id} - Lean market: {leanMarket}");
+
                     _mapMarkets.Add(Convert.ToInt32(market.Id, CultureInfo.InvariantCulture), leanMarket);
                 }
                 // TODO: remove when Market.CFE is added to LEAN
                 else if (market.Name == "CFE")
                 {
                     _mapMarkets.Add(Convert.ToInt32(market.Id, CultureInfo.InvariantCulture), Market.CBOE);
+                }
+                else
+                {
+                    Log.Trace($"LoadMarketsMap(): skipping market - Id: {market.Id} - Name: {market.Name}");
                 }
             }
         }

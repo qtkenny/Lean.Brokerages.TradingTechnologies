@@ -6,6 +6,7 @@
 using System;
 using NUnit.Framework;
 using QuantConnect.Configuration;
+using QuantConnect.Logging;
 using QuantConnect.TradingTechnologies;
 using QuantConnect.TradingTechnologies.TT.Api;
 
@@ -18,6 +19,12 @@ namespace QuantConnect.TradingTechnologiesTests
         private readonly string _appKey = Config.Get("tt-rest-app-key");
         private readonly string _appSecret = Config.Get("tt-rest-app-secret");
         private readonly string _environment = Config.Get("tt-rest-environment");
+
+        [SetUp]
+        public void Setup()
+        {
+            Log.LogHandler = new NUnitLogHandler();
+        }
 
         [TestCase(SecurityType.Equity, "CS")]
         [TestCase(SecurityType.Option, "OPT")]
