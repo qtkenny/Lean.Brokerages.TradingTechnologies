@@ -63,6 +63,7 @@ namespace QuantConnect.TradingTechnologies
         {
             _apiClient = apiClient;
 
+            Log.Trace($"TradingTechnologiesSymbolMapper(): Loading mappings");
             _mapLeanMarketToSecurityExchange = _mapSecurityExchangeToLeanMarket
                 .ToDictionary(x => x.Value, x => x.Key);
 
@@ -73,6 +74,11 @@ namespace QuantConnect.TradingTechnologies
 
             // TODO: remove when Market.CFE is added to LEAN
             _mapSecurityExchangeToLeanMarket.Add("CFE", Market.CBOE);
+
+            foreach (var kvp in _mapSecurityExchangeToLeanMarket)
+            {
+                Log.Trace($"_mapSecurityExchangeToLeanMarket: TTSecurityExchange: {kvp.Key} - LeanMarket: {kvp.Value}");
+            }
 
             _mapLeanSecurityTypeToProductType = _mapProductTypeToLeanSecurityType
                 .ToDictionary(x => x.Value, x => x.Key);

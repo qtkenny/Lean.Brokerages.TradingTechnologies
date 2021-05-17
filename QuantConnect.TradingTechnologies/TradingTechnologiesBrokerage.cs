@@ -57,7 +57,10 @@ namespace QuantConnect.TradingTechnologies
             _subscriptionManager.SubscribeImpl += (s, t) => Subscribe(s);
             _subscriptionManager.UnsubscribeImpl += (s, t) => Unsubscribe(s);
 
+            Log.Trace($"TradingTechnologiesBrokerage(): Loading TT API client");
             _apiClient = new TTApiClient(fixConfiguration.RestAppKey, fixConfiguration.RestAppSecret, fixConfiguration.RestEnvironment);
+
+            Log.Trace($"TradingTechnologiesBrokerage(): Loading TT symbol mapper");
             _symbolMapper = new TradingTechnologiesSymbolMapper(_apiClient);
 
             _fixMarketDataController = new FixMarketDataController();
