@@ -38,6 +38,20 @@ namespace QuantConnect.TradingTechnologies.TT.Api
 
         public TTApiClient(string appKey, string appSecret, string environment)
         {
+            if (string.IsNullOrWhiteSpace(appKey))
+            {
+                throw new ArgumentException($"Invalid app key: {appKey}");
+            }
+
+            if (string.IsNullOrWhiteSpace(appSecret))
+            {
+                throw new ArgumentException($"Invalid app secret: {appSecret}");
+            }
+
+            Log.Trace($"App key: {appKey}");
+            Log.Trace($"App secret: {appSecret}");
+            Log.Trace($"Environment: {environment}");
+
             _appKey = appKey;
             _appSecret = appKey + ":" + appSecret;
             _environment = environment;
